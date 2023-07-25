@@ -1,0 +1,194 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Users API",
+      "version": "1.0.0",
+      "description": "API to manage users data."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/users": {
+        "get": {
+          "summary": "Get all users",
+          "responses": {
+            "200": {
+              "description": "Successful response. Returns an array of users."
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new user",
+          "requestBody": {
+            "description": "User data to be added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created successfully. Returns the created user."
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "summary": "Get a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user to fetch",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response. Returns the requested user."
+            },
+            "404": {
+              "description": "User not found."
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user to update",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Updated user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User updated successfully. Returns the updated user."
+            },
+            "404": {
+              "description": "User not found."
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the user to delete",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted successfully. Returns the deleted user."
+            },
+            "404": {
+              "description": "User not found."
+            }
+          }
+        }
+      },
+      "/users/search": {
+        "get": {
+          "summary": "Search users",
+          "parameters": [
+            {
+              "name": "term",
+              "in": "query",
+              "required": true,
+              "description": "Search term",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful response. Returns an array of users matching the search term."
+            },
+            "400": {
+              "description": "Bad request. Missing search term."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "dob": {
+              "type": "string",
+              "format": "date"
+            },
+            "location": {
+              "type": "object",
+              "properties": {
+                "city": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                }
+              }
+            },
+            "gender": {
+              "type": "string",
+              "enum": ["male", "female"]
+            },
+            "address": {
+              "type": "string"
+            },
+            "avatar": {
+              "type": "string",
+              "format":"url"
+            }
+          },
+          "required": ["id","name", "email", "phone", "dob", "location", "gender", "address","avatar"]
+        }
+      }
+    }
+  }
